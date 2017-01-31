@@ -1,4 +1,14 @@
-﻿using System;
+﻿// Vector2Fix64.cs
+//
+// Copyright 2017 Oliver Brown
+//
+// Licensed under the Apache License, Version 2.0 <LICENSE.txt or
+// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+// <http://opensource.org/licenses/MIT>, at your option. This 
+// file may not be copied, modified, or distributed except 
+// according to those terms.
+
+using System;
 namespace FixMath.NET
 {
     public struct Vector2Fix64 : IEquatable<Vector2Fix64>
