@@ -3,6 +3,8 @@ namespace FixMath.NET
 {
     public struct Vector2Fix64 : IEquatable<Vector2Fix64>
     {
+        public readonly Fix64 X, Y;
+
         public static readonly Vector2Fix64 Zero = new Vector2Fix64();
         public static readonly Vector2Fix64 One = new Vector2Fix64(Fix64.One, Fix64.One);
         public static readonly Vector2Fix64 UnitX = new Vector2Fix64(Fix64.One, Fix64.Zero);
@@ -12,78 +14,66 @@ namespace FixMath.NET
             return rhs;
         }
         public static Vector2Fix64 operator -(Vector2Fix64 rhs) {
-            return new Vector2Fix64(-rhs.m_x, -rhs.m_y);
+            return new Vector2Fix64(-rhs.X, -rhs.Y);
         }
 
         public static Vector2Fix64 operator +(Vector2Fix64 lhs, Vector2Fix64 rhs) {
-            return new Vector2Fix64(lhs.m_x + rhs.m_x, lhs.m_y + rhs.m_y);
+            return new Vector2Fix64(lhs.X + rhs.X, lhs.Y + rhs.Y);
         }
         public static Vector2Fix64 operator -(Vector2Fix64 lhs, Vector2Fix64 rhs) {
-            return new Vector2Fix64(lhs.m_x - rhs.m_x, lhs.m_y - rhs.m_y);
+            return new Vector2Fix64(lhs.X - rhs.X, lhs.Y - rhs.Y);
         }
 
         public static Vector2Fix64 operator +(Vector2Fix64 lhs, Fix64 rhs) {
-            return lhs.ScalarAdd(rhs);
+            return new Vector2Fix64(lhs.X + rhs, lhs.Y + rhs);
         }
         public static Vector2Fix64 operator +(Fix64 lhs, Vector2Fix64 rhs) {
-            return rhs.ScalarAdd(lhs);
+            return new Vector2Fix64(rhs.X + lhs, rhs.Y + lhs);
         }
         public static Vector2Fix64 operator -(Vector2Fix64 lhs, Fix64 rhs) {
-            return new Vector2Fix64(lhs.m_x - rhs, lhs.m_y - rhs);
+            return new Vector2Fix64(lhs.X - rhs, lhs.Y - rhs);
         }
         public static Vector2Fix64 operator *(Vector2Fix64 lhs, Fix64 rhs) {
-            return lhs.ScalarMultiply(rhs);
+            return new Vector2Fix64(lhs.X * rhs, lhs.Y * rhs);
         }
         public static Vector2Fix64 operator *(Fix64 lhs, Vector2Fix64 rhs) {
-            return rhs.ScalarMultiply(lhs);
+            return new Vector2Fix64(rhs.X * lhs, rhs.Y * lhs);
         }
         public static Vector2Fix64 operator /(Vector2Fix64 lhs, Fix64 rhs) {
-            return new Vector2Fix64(lhs.m_x / rhs, lhs.m_y / rhs);
+            return new Vector2Fix64(lhs.X / rhs, lhs.Y / rhs);
         }
-
-        readonly Fix64 m_x, m_y;
 
         public Vector2Fix64(Fix64 x, Fix64 y) {
-            m_x = x;
-            m_y = y;
+            X = x;
+            Y = y;
         }
 
-        public Fix64 X { get { return m_x; } }
-        public Fix64 Y { get { return m_y; } }
-
         public Fix64 Dot(Vector2Fix64 rhs) {
-            return m_x * rhs.m_x + m_y * rhs.m_y;
+            return X * rhs.X + Y * rhs.Y;
         }
 
         public Fix64 Cross(Vector2Fix64 rhs) {
-            return m_x * rhs.m_y - m_y * rhs.m_x;
-        }
-
-        Vector2Fix64 ScalarAdd(Fix64 value) {
-            return new Vector2Fix64(m_x + value, m_y + value);
-        }
-        Vector2Fix64 ScalarMultiply(Fix64 value) {
-            return new Vector2Fix64(m_x * value, m_y * value);
+            return X * rhs.Y - Y * rhs.X;
         }
 
         public Fix64 GetMagnitude() {
-            return Fix64.Sqrt(m_x * m_x + m_y * m_y);
+            return Fix64.Sqrt(X * X + Y * Y);
         }
 
         public Vector2Fix64 Normalize() {
-            if (m_x == Fix64.Zero && m_y == Fix64.Zero)
-                return Vector2Fix64.Zero;
+            if (X == Fix64.Zero && Y == Fix64.Zero)
+                return Zero;
 
             var m = GetMagnitude();
-            return new Vector2Fix64(m_x / m, m_y / m);
+            return new Vector2Fix64(X / m, Y / m);
         }
 
         public override string ToString() {
-            return string.Format("({0}, {1})", m_x, m_y);
+            return string.Format("({0}, {1})", X, Y);
         }
 
         public bool Equals(Vector2Fix64 other) {
-            return m_x == other.m_x && m_y == other.m_y;
+            return X == other.X && Y == other.Y;
         }
 
         public override bool Equals(object obj) {
@@ -105,11 +95,11 @@ namespace FixMath.NET
         }
 
         public static bool operator ==(Vector2Fix64 value1, Vector2Fix64 value2) {
-            return value1.m_x == value2.m_x && value1.m_y == value2.m_y;
+            return value1.X == value2.X && value1.Y == value2.Y;
         }
 
         public static bool operator !=(Vector2Fix64 value1, Vector2Fix64 value2) {
-            return value1.m_x != value2.m_x || value1.m_y != value2.m_y;
+            return value1.X != value2.X || value1.Y != value2.Y;
         }
     }
 }
