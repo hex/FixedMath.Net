@@ -1,7 +1,7 @@
 ﻿using System;
 namespace FixMath.NET
 {
-    public struct Vector2Fix64
+    public struct Vector2Fix64 : IEquatable<Vector2Fix64>
     {
         public static readonly Vector2Fix64 Zero = new Vector2Fix64();
         public static readonly Vector2Fix64 One = new Vector2Fix64(Fix64.One, Fix64.One);
@@ -41,7 +41,7 @@ namespace FixMath.NET
             return new Vector2Fix64(lhs.m_x / rhs, lhs.m_y / rhs);
         }
 
-        Fix64 m_x, m_y;
+        readonly Fix64 m_x, m_y;
 
         public Vector2Fix64(Fix64 x, Fix64 y) {
             m_x = x;
@@ -80,6 +80,31 @@ namespace FixMath.NET
 
         public override string ToString() {
             return string.Format("({0}, {1})", m_x, m_y);
+        }
+
+        public bool Equals(Vector2Fix64 other) {
+            return m_x == other.m_x && m_y == other.m_y;
+        }
+
+        public override bool Equals(object obj) {
+            if (obj is Vector2Fix64)
+            {
+                return Equals((Vector2Fix64)obj);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode() {
+            return m_x.GetHashCode() + m_y.GetHashCode();
+        }
+
+        public static bool operator ==(Vector2Fix64 value1, Vector2Fix64 value2) {
+            return value1.m_x == value2.m_x && value1.m_y == value2.m_y;
+        }
+
+        public static bool operator !=(Vector2Fix64 value1, Vector2Fix64 value2) {
+            return value1.m_x != value2.m_x || value1.m_y != value2.m_y;
         }
     }
 }
