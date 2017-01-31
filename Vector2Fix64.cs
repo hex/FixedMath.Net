@@ -96,7 +96,12 @@ namespace FixMath.NET
         }
 
         public override int GetHashCode() {
-            return m_x.GetHashCode() + m_y.GetHashCode();
+            unchecked {
+                int hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
+                return hash;
+            }
         }
 
         public static bool operator ==(Vector2Fix64 value1, Vector2Fix64 value2) {
